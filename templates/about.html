@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <div class="row">
+        <div class="col-12">
+            <br>
+            <h2 class="h2">Dakshina Online – A Platform for Seva, Faith, and Blessings</h2>
+            <div class="d-flex flex-wrap gap-3 mb-4">
+                {% for i in range(1, 6) %}
+                <img src="/static/images/about/about{{ i }}.png" class="img-thumbnail" style="width: {{ 150 + (i * 10) }}px; height: {{ 100 + (i * 5) }}px;" alt="Gallery Image {{ i }};"/> 
+                {% endfor %}
+            </div>
+
+            <p class="lead">Dakshina Online was created with a simple and sacred purpose — to       connect devotees with temples, priests, and sadhus who dedicate their lives to serving the divine. In our tradition, offering Dakshina is not just a donation, 
+                it is an act of gratitude, faith, and responsibility. For centuries, people have supported temples and spiritual workers so that prayers, pooja, and rituals can continue for the welfare of society.
+                Today, many local temples, priests, and sadhus struggle to maintain daily worship and basic needs due to lack of support. Through Dakshina Online, devotees can easily contribute and become part of this sacred seva from anywhere. Your donation helps in performing daily pooja, maintaining temples, supporting priests, arranging prasad, and continuing spiritual traditions that bring peace and positivity to our lives.
+                It is believed that when we give with a pure heart, the blessings return to us in many forms — happiness, prosperity, good health, and peace of mind. By donating for dharma, we not only help others but also bring good fortune into our own lives.
+                We invite you to be part of this noble effort. Offer your Dakshina with devotion, support those who serve the divine, and help keep the sacred traditions alive for generations to come.
+        </div>
+    </div>
+{% endblock %}
+
+

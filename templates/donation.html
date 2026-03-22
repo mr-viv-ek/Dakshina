@@ -1,0 +1,152 @@
+{% extends "base.html" %}
+{% block title %}Donate to Dakshina Online{% endblock %}
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-md-8">
+        <div class="text-center mb-5">
+            <h1 class="mb-3">Support Dakshina Online</h1>
+            <p class="lead text-muted">Your donation helps us preserve and share the teachings of temples, priests, and sadhus with the world.</p>
+        </div>
+
+        <div class="card shadow-lg">
+            <div class="card-body p-5">
+                <h2 class="card-title mb-4">Make a Donation</h2>
+                
+                <div class="alert alert-info mb-4">
+                    <i class="bi bi-info-circle"></i> <strong>Note:</strong> This is a demonstration page. In production, this would integrate with a real payment gateway.
+                </div>
+
+                <form id="donationForm" method="post" action="/donate">
+                    <div class="mb-4">
+                        <label class="form-label fw-bold">Donation Amount</label>
+                        <div class="btn-group w-100 mb-3" role="group">
+                            <input type="radio" class="btn-check" name="amount" id="amount_10" value="10" onchange="updateAmount()">
+                            <label class="btn btn-outline-primary" for="amount_10">₹10</label>
+                            
+                            <input type="radio" class="btn-check" name="amount" id="amount_50" value="50" onchange="updateAmount()">
+                            <label class="btn btn-outline-primary" for="amount_50">₹50</label>
+                            
+                            <input type="radio" class="btn-check" name="amount" id="amount_100" value="100" onchange="updateAmount()">
+                            <label class="btn btn-outline-primary" for="amount_100">₹100</label>
+                            
+                            <input type="radio" class="btn-check" name="amount" id="amount_500" value="500" onchange="updateAmount()">
+                            <label class="btn btn-outline-primary" for="amount_500">₹500</label>
+                            
+                            <input type="radio" class="btn-check" name="amount" id="amount_custom" value="custom" onchange="updateAmount()">
+                            <label class="btn btn-outline-primary" for="amount_custom">Custom</label>
+                        </div>
+                    </div>
+
+                    <div class="mb-4" id="customAmountDiv" style="display: none;">
+                        <label for="customAmount" class="form-label">Enter Amount</label>
+                        <div class="input-group">
+                            <span class="input-group-text">₹</span>
+                            <input type="number" class="form-control" id="customAmount" placeholder="Enter amount" min="1" step="1" />
+                        </div>
+                    </div>
+
+                    <div class="mb-4">
+                        <label for="donorName" class="form-label">Your Name (Optional)</label>
+                        <input type="text" class="form-control" id="donorName" name="donorName" placeholder="Enter your name" />
+                    </div>
+
+                    <div class="mb-4">
+                        <label for="donorEmail" class="form-label">Email Address (Optional)</label>
+                        <input type="email" class="form-control" id="donorEmail" name="donorEmail" placeholder="Enter your email" />
+                    </div>
+
+                    <div class="mb-4">
+                        <label for="message" class="form-label">Message (Optional)</label>
+                        <textarea class="form-control" id="message" name="message" rows="3" placeholder="Share your thoughts or dedicate this donation..."></textarea>
+                    </div>
+
+                    <div class="form-check mb-4">
+                        <input class="form-check-input" type="checkbox" id="anonymous" name="anonymous" checked>
+                        <label class="form-check-label" for="anonymous">
+                            Keep my donation anonymous
+                        </label>
+                    </div>
+
+                    <button type="submit" class="btn btn-success btn-lg w-100 mb-3">
+                        <i class="bi bi-heart-fill"></i> Proceed to Payment
+                    </button>
+                </form>
+
+                <div class="alert alert-warning mt-4">
+                    <strong>Payment Methods:</strong> In a live application, this would support UPI, Cards, NetBanking, and Wallets.
+                </div>
+            </div>
+        </div>
+
+        <div class="row mt-5">
+            <div class="col-md-4">
+                <div class="card text-center">
+                    <div class="card-body">
+                        <h5 class="card-title">🙏 Mission</h5>
+                        <p class="card-text small">Preserve and promote spiritual knowledge from temples and spiritual leaders.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="card text-center">
+                    <div class="card-body">
+                        <h5 class="card-title">🌍 Reach</h5>
+                        <p class="card-text small">Share teachings globally and make spiritual wisdom accessible to everyone.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="card text-center">
+                    <div class="card-body">
+                        <h5 class="card-title">💚 Impact</h5>
+                        <p class="card-text small">Every donation directly supports maintaining and growing our platform.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="mt-5">
+            <h3 class="h5 mb-3">Recent Donations</h3>
+            {% if recent_donations %}
+                <div class="list-group">
+                    {% for donation in recent_donations[:8] %}
+                    <div class="list-group-item list-group-item-action">
+                        <div class="d-flex w-100 justify-content-between">
+                            <h6 class="mb-1">{{ donation.name }}</h6>
+                            <small>₹{{ donation.amount }}</small>
+                        </div>
+                        <p class="mb-1 text-muted">{{ donation.message or 'Keep shining the community light!' }}</p>
+                        <small>{{ donation.timestamp }}</small>
+                    </div>
+                    {% endfor %}
+                </div>
+            {% else %}
+                <p class="text-muted">No donations recorded yet. Be the first contributor!</p>
+            {% endif %}
+        </div>
+
+        <div class="mt-4 text-center">
+            <p class="text-muted">Have questions? Contact us at support@dakshinaonline.com</p>
+            <a href="/" class="btn btn-outline-secondary">← Back to Home</a>
+        </div>
+    </div>
+</div>
+
+<script>
+function updateAmount() {
+    const customDiv = document.getElementById('customAmountDiv');
+    const customOption = document.getElementById('amount_custom').checked;
+    
+    if (customOption) {
+        customDiv.style.display = 'block';
+    } else {
+        customDiv.style.display = 'none';
+    }
+}
+
+// (Form is submitted directly to the backend now.)
+function showDonationAcknowledgment(amount, anonymous, name) {
+    alert(`Thank you for your donation of ₹${amount}!\n\nDonor: ${anonymous ? 'Anonymous' : name}`);
+}
+</script>
+{% endblock %}

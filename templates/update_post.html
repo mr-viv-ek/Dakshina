@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+{% block title %}Edit Post{% endblock %}
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-md-8">
+        <h2>Edit Post</h2>
+        <form method="post" action="/api/posts/{{ post.id }}/edit">
+            <div class="mb-3">
+                <label for="title" class="form-label">Title</label>
+                <input type="text" id="title" name="title" class="form-control" value="{{ post.title }}" required />
+            </div>
+            <div class="mb-3">
+                <label for="description" class="form-label">Description</label>
+                <textarea id="description" name="description" class="form-control" rows="5" required>{{ post.description }}</textarea>
+            </div>
+            <div class="mb-3">
+                <label for="category" class="form-label">Category</label>
+                <input type="text" id="category" name="category" class="form-control" value="{{ post.category }}" required />
+            </div>
+            <div class="mb-3">
+                <label for="image_url" class="form-label">Image URL</label>
+                <input type="text" id="image_url" name="image_url" class="form-control" value="{{ post.image_url or '' }}" />
+            </div>
+             {% if error %}
+            <div class="alert alert-danger">{{ error }}</div>
+            {% endif %}
+            <button class="btn btn-primary" type="submit">Update Post</button>
+            <a href="/admin/posts" class="btn btn-secondary">Cancel</a>
+        </form>
+    </div>
+</div>
+{% endblock %}

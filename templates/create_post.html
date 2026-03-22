@@ -1,0 +1,65 @@
+{% extends "base.html" %}
+{% block title %}Create Post{% endblock %}
+{% block content %}
+<h1>Create Post</h1>
+{% if error %}<div class="alert alert-danger">{{ error }}</div>{% endif %}
+<form method="post" action="/admin/posts/new" class="row g-3" enctype="multipart/form-data">
+    <div class="col-md-12">
+        <label for="title" class="form-label">Title</label>
+        <input type="text" id="title" name="title" class="form-control" required />
+    </div>
+    <div class="col-md-12">
+        <label for="description" class="form-label">Description</label>
+        <textarea id="description" name="description" class="form-control" rows="4" required></textarea>
+    </div>
+    <div class="col-md-6">
+        <label for="category" class="form-label">Category</label>
+        <select id="category" name="category" class="form-select" required>
+            <option value="temple">Temple</option>
+            <option value="priest">Priest</option>
+            <option value="sadhu">Sadhu</option>
+        </select>
+    </div>
+    <div class="col-md-12">
+        <label class="form-label">Image (Choose One)</label>
+        <div class="btn-group w-100 mb-3" role="group">
+            <input type="radio" class="btn-check" name="image_option" id="option_file" value="file" onchange="toggleImageInput()">
+            <label class="btn btn-outline-primary" for="option_file">Upload File</label>
+            
+            <input type="radio" class="btn-check" name="image_option" id="option_url" value="url" onchange="toggleImageInput()">
+            <label class="btn btn-outline-primary" for="option_url">Use URL</label>
+        </div>
+    </div>
+    <div class="col-md-12" id="file_input_div" style="display: none;">
+        <label for="image_file" class="form-label">Upload Image File</label>
+        <input type="file" id="image_file" name="image_file" class="form-control" accept="image/*" />
+        <small class="text-muted">Supported formats: JPG, PNG, GIF, WebP (Max 10MB)</small>
+    </div>
+    <div class="col-md-12" id="url_input_div" style="display: none;">
+        <label for="image_url" class="form-label">Image URL</label>
+        <input type="url" id="image_url" name="image_url" class="form-control" placeholder="https://example.com/image.jpg" />
+    </div>
+    <div class="col-12">
+        <button class="btn btn-primary" type="submit">Create Post</button>
+        <a class="btn btn-secondary" href="/admin/posts">Cancel</a>
+    </div>
+</form>
+
+<script>
+function toggleImageInput() {
+    const fileDiv = document.getElementById('file_input_div');
+    const urlDiv = document.getElementById('url_input_div');
+    const fileOption = document.getElementById('option_file').checked;
+    
+    if (fileOption) {
+        fileDiv.style.display = 'block';
+        urlDiv.style.display = 'none';
+        document.getElementById('image_file').value = '';
+    } else {
+        fileDiv.style.display = 'none';
+        urlDiv.style.display = 'block';
+        document.getElementById('image_url').value = '';
+    }
+}
+</script>
+{% endblock %}
